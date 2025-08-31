@@ -7,12 +7,15 @@ require('dotenv').config();
 
 //should use hash for more secure login (do this if your're planning to deploy this)
 //also the structure for the .env file is listed at the botton of this file.
-const ADMIN_PASS = process.env.SESSION_SECRET; // set in .env
+const ADMIN_PASS = process.env.SESSION_SECRET;// set in .env
+// const ADMIN_HASH = process.env.ADMIN_HASH
+
 const uploadDir = path.join(__dirname, '../../public/uploads');
 
 const upload = multer({
   dest: uploadDir,
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB per image
+  limits: { fileSize: 5 * 1024 * 1024 }
+  // 5MB per image (increas this depending on vm storage space on chromebook)
 });
 
 // middleware
@@ -21,12 +24,13 @@ function requireAuth(req, res, next) {
   return res.redirect('/admin/login');
 }
 
-// login routes (unchanged)
+//login rout
 router.get('/login', (req, res) => {
   res.render('admin/login', { locals: { title: 'Admin Login' }, error: null });
 });
 router.post('/login', (req, res) => {
   const pass = req.body.password;
+  //if (pass === ADMIN_HASH) ...
   if (pass === ADMIN_PASS) {
     req.session.isAuth = true;
     return res.redirect('/admin');
@@ -39,13 +43,13 @@ router.get('/logout', (req, res) => {
   });
 });
 
-// Admin dashboard: list posts and actions
+//admin dashboard.
 router.get('/', requireAuth, async (req, res) => {
   const posts = await storageModel.getPosts();
   res.render('admin/index', { locals: { title: 'Admin Dashboard' }, posts });
 });
 
-// New post form (protected)
+//new post (now protected through admin/login)
 router.get('/new', requireAuth, (req, res) => {
   res.render('admin/new', { locals: { title: 'Create Post' }, error: null });
 });
@@ -63,7 +67,7 @@ router.post('/new', requireAuth, upload.array('images', 6), async (req, res) => 
   }
 });
 
-// Visitors (optionally filter by postId via ?postId=)
+//visitors (need to be logged in)
 router.get('/visitors', requireAuth, async (req, res) => {
   const postId = req.query.postId || null;
   let visits = [];
@@ -75,14 +79,14 @@ router.get('/visitors', requireAuth, async (req, res) => {
   res.render('admin/visitors', { locals: { title: 'Visitors' }, visits, postId });
 });
 
-// Comments for a post (admin sees emails)
+//comment on posts (only admin sees the email)
 router.get('/comments/:postId', requireAuth, async (req, res) => {
   const postId = req.params.postId;
   const comments = await storageModel.getCommentsForPost(postId);
   res.render('admin/comments', { locals: { title: 'Comments' }, comments, postId });
 });
 
-// Delete comment (POST)
+//delete comment (need to create .yaml file now)
 router.post('/comments/delete/:id', requireAuth, async (req, res) => {
   const id = req.params.id;
   // get comment to find postId for redirect
