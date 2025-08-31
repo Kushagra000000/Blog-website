@@ -1,0 +1,19 @@
+<div class="author">
+  <h1 class="author__heading">Welcome</h1>
+  <p class="author__body">A small blog for my CS notes && projects && other interesting stuff. I write about what I learn and projects I work on.</p>
+</div>
+
+<section class="articles">
+  <h2 class="articles__heading">Recent Posts</h2>
+
+  <ul class="article-ul">
+    <% (data || []).forEach(post => { %>
+      <li>
+        <a href="/post/<%= post._id %>">
+          <span><%= post.title %></span>
+          <span class="article-list__date"><%= new Date(post.createdAt).toDateString() %></span>
+        </a>
+      </li>
+    <% }) %>
+  </ul>
+</section>

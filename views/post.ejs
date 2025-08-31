@@ -1,0 +1,46 @@
+<h1><%= data.title %></h1>
+<p style="color: var(--gray); margin-bottom: 10px;">Posted: <%= new Date(data.createdAt).toLocaleString() %> — Views: <%= data.views || 0 %></p>
+
+<article class="article"><%= data.body %></article>
+
+<% if (data.images && data.images.length) { %>
+  <section style="margin-top: 20px;">
+    <% data.images.forEach(img => { %>
+      <div class="hero-image" style="margin-bottom: 12px;">
+        <img src="<%= img %>" alt="post image">
+      </div>
+    <% }) %>
+  </section>
+<% } %>
+
+<section id="comments" style="margin-top: 32px;">
+  <h2>Comments</h2>
+
+  <% if ((comments || []).length === 0) { %>
+    <p>No comments yet — be the first to comment.</p>
+  <% } else { %>
+    <ul style="list-style:none; padding:0;">
+      <% comments.forEach(c => { %>
+        <li style="padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);">
+          <strong><%= c.username %></strong> <small style="color: var(--gray);"> • <%= new Date(c.createdAt).toLocaleString() %></small>
+          <div style="margin-top:6px;"><%= c.body %></div>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <div style="margin-top: 16px;">
+    <h3>Leave a comment</h3>
+    <form action="/post/<%= data._id %>/comment" method="POST">
+      <label>Your name</label>
+      <input name="username" required>
+      <label>Your email (will not be shown publicly)</label>
+      <input type="email" name="email" required>
+      <label>Comment</label>
+      <textarea name="body" rows="4" required></textarea>
+      <div style="margin-top:8px;">
+        <button class="btn" type="submit">Post comment</button>
+      </div>
+    </form>
+  </div>
+</section>

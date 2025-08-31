@@ -1,0 +1,13 @@
+<div class="author">
+  <h1 class="author__heading">Admin Login</h1>
+</div>
+
+<section class="container">
+  <% if (error) { %>
+    <p style="color: red;"><%= error %></p>
+  <% } %>
+  <form action="/admin/login" method="POST">
+    <input type="password" name="password" placeholder="Admin password" required>
+    <button class="btn" type="submit">Login</button>
+  </form>
+</section>

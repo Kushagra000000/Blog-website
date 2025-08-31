@@ -1,0 +1,22 @@
+<div class="author">
+  <h1 class="author__heading">Create a new post</h1>
+</div>
+
+<section class="container">
+  <% if (error) { %>
+    <p style="color: red;"><%= error %></p>
+  <% } %>
+
+  <form action="/admin/new" method="POST" enctype="multipart/form-data">
+    <label>Title</label>
+    <input name="title" required>
+    <label>Body</label>
+    <textarea name="body" rows="8" placeholder="Write your article here..."></textarea>
+    <label>Images (optional)</label>
+    <input type="file" name="images" multiple accept="image/*">
+    <div style="margin-top: 8px;">
+      <button class="btn" type="submit">Publish</button>
+      <a class="btn" href="/admin/logout">Logout</a>
+    </div>
+  </form>
+</section>

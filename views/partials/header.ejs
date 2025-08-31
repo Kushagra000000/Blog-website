@@ -1,0 +1,44 @@
+<header class="header">
+  <a href="/" class="header__logo">Kushagra</a>
+
+  <nav class="header__nav">
+    <ul>
+      <li>
+        <a href="/" class="<%= isActiveRoute('/', currentRoute) %>">Home</a>
+      </li>
+      <li>
+        <a href="/about" class="<%= isActiveRoute('/about', currentRoute) %>">About</a>
+      </li>
+      <li>
+        <a href="/resume" class="<%= isActiveRoute('/resume', currentRoute) %>">Resume</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="header__button">
+    <button class="searchBtn" aria-expanded="false" title="Search">
+      <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7.79167 13.4583C10.9213 13.4583 13.4583 10.9213 13.4583 7.79167C13.4583 4.66205 10.9213 2.125 7.79167 2.125C4.66205 2.125 2.125 4.66205 2.125 7.79167C2.125 10.9213 4.66205 13.4583 7.79167 13.4583Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M14.875 14.875L11.7938 11.7938" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <!-- Local images in public/img/ -->
+    <a class="social" href="https://github.com/Kushagra000000" target="_blank" rel="noreferrer" title="GitHub">
+      <img src="/img/github_logo.svg" alt="GitHub">
+    </a>
+
+    <a class="social" href="https://www.linkedin.com/in/kushagra-kumawat-190921321/" target="_blank" rel="noreferrer" title="LinkedIn">
+      <img src="/img/linkedin.svg" alt="LinkedIn">
+    </a>
+
+    <a class="social" href="https://www.instagram.com/kushagraz0/" target="_blank" rel="noreferrer" title="Instagram">
+      <img src="/img/Instagram.svg" alt="Instagram">
+    </a>
+
+    <a class="social" href="mailto:kumawat.kkushagra@gmail.com" title="Email">
+      <img src="/img/email.svg" alt="Email">
+    </a>
+
+  </div>
+</header>

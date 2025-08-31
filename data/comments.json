@@ -1,0 +1,11 @@
+[
+  {
+    "_id": "007",
+    "postId": "007",
+    "username": "testing",
+    "email": "foo@bar.com",
+    "body": "Example",
+    "ip": "xx.xx.xx.xx",
+    "createdAt": "timehere"
+  }
+]
