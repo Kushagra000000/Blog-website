@@ -3,3 +3,4 @@ ecosystem.config.js
 .env
 data/
 public/uploads/
+.DS_Store
