@@ -1,0 +1,38 @@
+<div class="author">
+  <h1 class="author__heading">Comments for post: <%= postId %></h1>
+  <p class="author__body">As admin you can see the email address and remove inappropriate comments.</p>
+</div>
+
+<section class="container">
+  <div style="margin-bottom: 12px;">
+    <a class="btn" href="/admin">Back to dashboard</a>
+    <a class="btn" href="/admin/visitors?postId=<%= postId %>">View visitors</a>
+  </div>
+
+  <table style="width:100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th style="text-align:left; padding:8px; border-bottom:1px solid #ddd">When</th>
+        <th style="text-align:left; padding:8px; border-bottom:1px solid #ddd">Username</th>
+        <th style="text-align:left; padding:8px; border-bottom:1px solid #ddd">Email</th>
+        <th style="text-align:left; padding:8px; border-bottom:1px solid #ddd">Comment</th>
+        <th style="text-align:left; padding:8px; border-bottom:1px solid #ddd">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% (comments || []).forEach(c => { %>
+        <tr>
+          <td style="padding:8px; border-bottom:1px solid #eee;"><%= new Date(c.createdAt).toLocaleString() %></td>
+          <td style="padding:8px; border-bottom:1px solid #eee;"><%= c.username %></td>
+          <td style="padding:8px; border-bottom:1px solid #eee;"><%= c.email %></td>
+          <td style="padding:8px; border-bottom:1px solid #eee;"><%= c.body %></td>
+          <td style="padding:8px; border-bottom:1px solid #eee;">
+            <form method="POST" action="/admin/comments/delete/<%= c._id %>" onsubmit="return confirm('Delete this comment?');">
+              <button class="btn btn-delete" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</section>

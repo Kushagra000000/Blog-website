@@ -1,0 +1,5 @@
+node_modules
+ecosystem.config.js
+.env
+data/
+public/uploads/

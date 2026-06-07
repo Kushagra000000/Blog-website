@@ -1,0 +1,29 @@
+<div class="author">
+  <h1 class="author__heading">Admin Dashboard</h1>
+  <p class="author__body">Create posts, view visitors, and moderate comments.</p>
+</div>
+
+<section class="container">
+  <div style="margin-bottom: 12px;">
+    <a class="btn" href="/admin/new">Create new post</a>
+    <a class="btn" href="/admin/visitors">View all visitors</a>
+    <a class="btn" href="/admin/logout">Logout</a>
+  </div>
+
+  <h2 style="margin-top: 20px;">Posts</h2>
+  <ul style="list-style:none; padding:0;">
+    <% (posts || []).forEach(p => { %>
+      <li style="padding:8px 0; border-bottom:1px solid rgba(0,0,0,0.06); display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <strong><%= p.title %></strong><br>
+          <small><%= new Date(p.createdAt).toLocaleString() %></small>
+        </div>
+        <div>
+          <a class="btn" href="/post/<%= p._id %>">View</a>
+          <a class="btn" href="/admin/visitors?postId=<%= p._id %>">Visitors</a>
+          <a class="btn" href="/admin/comments/<%= p._id %>">Comments</a>
+        </div>
+      </li>
+    <% }) %>
+  </ul>
+</section>
