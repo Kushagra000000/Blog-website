@@ -9,5 +9,5 @@ module.exports = {
     linkedin: "https://linkedin.com/in/yourusername",
     instagram: "https://instagram.com/yourusername",
   },
-  nav: ["about", "projects", "now"],
+  nav: ["about", "now"],
 };

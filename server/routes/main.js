@@ -85,11 +85,6 @@ router.post('/search', async (req, res) => {
   res.render('search', { data: results, locals: { title: `Search results for: ${term}`, description: 'Search page' } });
 });
 
-router.get('/projects', async (req, res) => {
-  const projects = await storage.getProjects();
-  res.render('projects', { locals: { title: 'Projects', description: 'Things I have built or am building' }, data: projects });
-});
-
 router.get('/now', async (req, res) => {
   const now = await storage.getNow();
   res.render('now', { locals: { title: 'Now', description: 'What I am currently up to' }, data: now });

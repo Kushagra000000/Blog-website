@@ -95,39 +95,6 @@ router.post('/comments/delete/:id', requireAuth, async (req, res) => {
   res.redirect('/admin');
 });
 
-
-/* PROJECTS */
-router.get('/projects', requireAuth, async (req, res) => {
-  const projects = await storageModel.getProjects();
-  res.render('admin/projects', { locals: { title: 'Projects' }, projects });
-});
-router.get('/projects/new', requireAuth, (req, res) => {
-  res.render('admin/project-form', { locals: { title: 'New Project' }, project: null, error: null });
-});
-router.post('/projects/new', requireAuth, async (req, res) => {
-  try {
-    const { title, description, url, status } = req.body;
-    await storageModel.saveProject({ title, description, url, status });
-    res.redirect('/admin/projects');
-  } catch (err) {
-    res.render('admin/project-form', { locals: { title: 'New Project' }, project: null, error: 'Error saving project' });
-  }
-});
-router.get('/projects/edit/:id', requireAuth, async (req, res) => {
-  const project = await storageModel.getProjectById(req.params.id);
-  if (!project) return res.redirect('/admin/projects');
-  res.render('admin/project-form', { locals: { title: 'Edit Project' }, project, error: null });
-});
-router.post('/projects/edit/:id', requireAuth, async (req, res) => {
-  const { title, description, url, status } = req.body;
-  await storageModel.updateProject(req.params.id, { title, description, url, status });
-  res.redirect('/admin/projects');
-});
-router.post('/projects/delete/:id', requireAuth, async (req, res) => {
-  await storageModel.deleteProject(req.params.id);
-  res.redirect('/admin/projects');
-});
-
 /* NOW PAGE */
 router.get('/now', requireAuth, async (req, res) => {
   const data = await storageModel.getNow();

@@ -4,7 +4,6 @@ const path = require('path');
 const POSTS_FILE = path.join(__dirname, '../../data/posts.json');
 const VISITS_FILE = path.join(__dirname, '../../data/visits.json');
 const COMMENTS_FILE = path.join(__dirname, '../../data/comments.json');
-const PROJECTS_FILE = path.join(__dirname, '../../data/projects.json');
 const NOW_FILE      = path.join(__dirname, '../../data/now.json');
 
 async function readJson(file, defaultValue = []) {
@@ -112,35 +111,7 @@ module.exports = {
     return true;
   },
 
-  /* PROJECTS */
-  async getProjects() {
-    return await readJson(PROJECTS_FILE, []);
-  },
-  async getProjectById(id) {
-    const projects = await readJson(PROJECTS_FILE, []);
-    return projects.find(p => p._id === id);
-  },
-  async saveProject(project) {
-    const projects = await readJson(PROJECTS_FILE, []);
-    if (!project._id) project._id = makeId();
-    if (!project.createdAt) project.createdAt = new Date().toISOString();
-    projects.push(project);
-    await writeJson(PROJECTS_FILE, projects);
-    return project;
-  },
-  async updateProject(id, data) {
-    const projects = await readJson(PROJECTS_FILE, []);
-    const i = projects.findIndex(p => p._id === id);
-    if (i === -1) return null;
-    projects[i] = { ...projects[i], ...data };
-    await writeJson(PROJECTS_FILE, projects);
-    return projects[i];
-  },
-  async deleteProject(id) {
-    const projects = await readJson(PROJECTS_FILE, []);
-    await writeJson(PROJECTS_FILE, projects.filter(p => p._id !== id));
-    return true;
-  },
+
   /* NOW PAGE */
   async getNow() {
     return await readJson(NOW_FILE, { studying: '', building: '', reading: '', other: '', lastUpdated: '' });
