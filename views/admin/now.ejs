@@ -1,0 +1,25 @@
+<div class="admin-header">
+  <h1>Now Page</h1>
+</div>
+<div class="admin-nav">
+  <a class="btn btn-secondary" href="/admin">← Dashboard</a>
+  <a class="btn btn-secondary" href="/now" target="_blank">View ↗</a>
+</div>
+<% if (saved) { %><p style="color:green;font-size:0.875rem;margin-bottom:1rem;">Saved!</p><% } %>
+
+<form action="/admin/now" method="POST">
+  <label>Studying</label>
+  <input name="studying" value="<%= data.studying || '' %>" placeholder="e.g. UNSW — Semester 2">
+
+  <label>Building</label>
+  <input name="building" value="<%= data.building || '' %>" placeholder="e.g. This blog">
+
+  <label>Reading</label>
+  <input name="reading" value="<%= data.reading || '' %>" placeholder="e.g. The Pragmatic Programmer">
+
+  <label>Other</label>
+  <textarea name="other" rows="3"><%= data.other || '' %></textarea>
+
+  <p class="text-muted" style="font-size:0.8rem;">Last updated: <%= data.lastUpdated || 'never' %> — auto-updates on save.</p>
+  <button class="btn" type="submit">Save</button>
+</form>

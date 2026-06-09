@@ -1,19 +1,14 @@
-<div class="author">
-  <h1 class="author__heading">Welcome</h1>
-  <p class="author__body">A small blog for my CS notes && projects && other interesting stuff. I write about what I learn and projects I work on.</p>
+<div class="intro">
+  <p><%= site.tagline %></p>
 </div>
 
-<section class="articles">
-  <h2 class="articles__heading">Recent Posts</h2>
-
-  <ul class="article-ul">
-    <% (data || []).forEach(post => { %>
-      <li>
-        <a href="/post/<%= post._id %>">
-          <span><%= post.title %></span>
-          <span class="article-list__date"><%= new Date(post.createdAt).toDateString() %></span>
-        </a>
-      </li>
-    <% }) %>
-  </ul>
-</section>
+<ul class="post-list">
+<% (data || []).forEach(post => { %>
+  <li>
+    <a href="/post/<%= post._id %>">
+      <span class="post-title"><%= post.title %></span>
+      <span class="post-date"><%= new Date(post.createdAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' }) %></span>
+    </a>
+  </li>
+<% }) %>
+</ul>

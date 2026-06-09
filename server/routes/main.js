@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const storage = require('../models/storage');
+const { marked } = require('marked');
 
 // helper to get client IP
 //should give a warning that ip is being logged
@@ -21,19 +22,14 @@ router.get('/about', (req, res) => {
   res.render('about', { locals });
 });
 
-//resume route (need to add pdf viewer (or large a4 size image) when resume is added)
-router.get('/resume', (req, res) => {
-  const locals = { title: 'Resume', description: 'Resume coming soon' };
-  res.render('resume', { locals });
-});
-
 //post and id
 router.get('/post/:id', async (req, res) => {
   const id = req.params.id;
   const post = await storage.getPostById(id);
   if (!post) return res.status(404).send('Post not found');
+  post.bodyHtml = marked(post.body || '');
 
-  // Record visit (every refresh counts)
+  // Record visit
   const ip = getClientIp(req);
   await storage.addVisit({ postId: id, ip, ua: req.get('user-agent') || '' });
 
@@ -87,6 +83,16 @@ router.post('/search', async (req, res) => {
   const posts = await storage.getPosts();
   const results = posts.filter(p => p.title.toLowerCase().includes(term) || (p.body || '').toLowerCase().includes(term));
   res.render('search', { data: results, locals: { title: `Search results for: ${term}`, description: 'Search page' } });
+});
+
+router.get('/projects', async (req, res) => {
+  const projects = await storage.getProjects();
+  res.render('projects', { locals: { title: 'Projects', description: 'Things I have built or am building' }, data: projects });
+});
+
+router.get('/now', async (req, res) => {
+  const now = await storage.getNow();
+  res.render('now', { locals: { title: 'Now', description: 'What I am currently up to' }, data: now });
 });
 
 module.exports = router;

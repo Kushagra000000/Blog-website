@@ -5,14 +5,15 @@ const path = require('path');
 const storageModel = require('../models/storage');
 require('dotenv').config();
 
-//should use hash for more secure login (do this if your're planning to deploy this)
-//also the structure for the .env file is listed at the botton of this file.
-const ADMIN_PASS = process.env.SESSION_SECRET; // set in .env
+//should use hash for more secure login
+//also the structure for the .env file is listed at the botton of this file...
+const ADMIN_PASS = process.env.SESSION_SECRET;
 const uploadDir = path.join(__dirname, '../../public/uploads');
 
 const upload = multer({
   dest: uploadDir,
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB per image
+  limits: { fileSize: 5 * 1024 * 1024 }
+  // 5MB per image
 });
 
 // middleware
@@ -21,7 +22,7 @@ function requireAuth(req, res, next) {
   return res.redirect('/admin/login');
 }
 
-// login routes (unchanged)
+// login routes
 router.get('/login', (req, res) => {
   res.render('admin/login', { locals: { title: 'Admin Login' }, error: null });
 });
@@ -45,7 +46,7 @@ router.get('/', requireAuth, async (req, res) => {
   res.render('admin/index', { locals: { title: 'Admin Dashboard' }, posts });
 });
 
-// New post form (protected)
+// New post form
 router.get('/new', requireAuth, (req, res) => {
   res.render('admin/new', { locals: { title: 'Create Post' }, error: null });
 });
@@ -63,7 +64,7 @@ router.post('/new', requireAuth, upload.array('images', 6), async (req, res) => 
   }
 });
 
-// Visitors (optionally filter by postId via ?postId=)
+// Visitors
 router.get('/visitors', requireAuth, async (req, res) => {
   const postId = req.query.postId || null;
   let visits = [];
@@ -75,7 +76,7 @@ router.get('/visitors', requireAuth, async (req, res) => {
   res.render('admin/visitors', { locals: { title: 'Visitors' }, visits, postId });
 });
 
-// Comments for a post (admin sees emails)
+// Comments for a post
 router.get('/comments/:postId', requireAuth, async (req, res) => {
   const postId = req.params.postId;
   const comments = await storageModel.getCommentsForPost(postId);
@@ -93,6 +94,55 @@ router.post('/comments/delete/:id', requireAuth, async (req, res) => {
   }
   res.redirect('/admin');
 });
+
+
+/* PROJECTS */
+router.get('/projects', requireAuth, async (req, res) => {
+  const projects = await storageModel.getProjects();
+  res.render('admin/projects', { locals: { title: 'Projects' }, projects });
+});
+router.get('/projects/new', requireAuth, (req, res) => {
+  res.render('admin/project-form', { locals: { title: 'New Project' }, project: null, error: null });
+});
+router.post('/projects/new', requireAuth, async (req, res) => {
+  try {
+    const { title, description, url, status } = req.body;
+    await storageModel.saveProject({ title, description, url, status });
+    res.redirect('/admin/projects');
+  } catch (err) {
+    res.render('admin/project-form', { locals: { title: 'New Project' }, project: null, error: 'Error saving project' });
+  }
+});
+router.get('/projects/edit/:id', requireAuth, async (req, res) => {
+  const project = await storageModel.getProjectById(req.params.id);
+  if (!project) return res.redirect('/admin/projects');
+  res.render('admin/project-form', { locals: { title: 'Edit Project' }, project, error: null });
+});
+router.post('/projects/edit/:id', requireAuth, async (req, res) => {
+  const { title, description, url, status } = req.body;
+  await storageModel.updateProject(req.params.id, { title, description, url, status });
+  res.redirect('/admin/projects');
+});
+router.post('/projects/delete/:id', requireAuth, async (req, res) => {
+  await storageModel.deleteProject(req.params.id);
+  res.redirect('/admin/projects');
+});
+
+/* NOW PAGE */
+router.get('/now', requireAuth, async (req, res) => {
+  const data = await storageModel.getNow();
+  res.render('admin/now', { locals: { title: 'Now Page' }, data, saved: req.query.saved });
+});
+router.post('/now', requireAuth, async (req, res) => {
+  const { studying, building, reading, other } = req.body;
+  await storageModel.saveNow({
+    studying, building, reading, other,
+    lastUpdated: new Date().toLocaleDateString('en-AU', { month: 'long', year: 'numeric' })
+  });
+  res.redirect('/admin/now?saved=1');
+});
+
+
 
 module.exports = router;
 

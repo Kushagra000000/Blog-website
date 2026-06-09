@@ -1,25 +1,16 @@
-<!-- DEVCHECK: edited file at <%= new Date().toISOString() %> -->
-
-<div class="author">
-  <h1 class="author__heading">About me</h1>
-  <p class="author__body">
-    Hi, I'm <strong>Kushagra</strong>, a software enginnering student studying at UNSW.
-    This blog is where I record short notes from my coursework, small projects (like this one) and other random stuff.
-    Aims:
+<h1 class="page-title">About</h1>
+<div class="page-content">
+  <p>Hi, I'm <strong><%= site.name %></strong> — a software engineering student in my second year at UNSW.</p>
+  <p>
+    This blog is where I write about things I build, bugs I solve, and anything else I'm
+    figuring out or studying...
   </p>
-
-  <ul>
-    <li><strong>Document what I learn</strong> — writing helps me remember.</li>
-    <li><strong>Share small projects</strong> — short project summaries and links to code on GitHub so others can re-use them (haven't worked on a useful project yet).</li>
-    <li><strong>Experiment with web dev</strong> — this site itself is a learning project: Express + file storage, uploads, and simple auth and self hosting.</li>
-  </ul>
-
-  <p class="author__body">
-    I also plan to publish a small highlights gallery, links to repositories for projects I complete, and other random cool links about things I found interesting.
+  <p>
+    Current interests: computer networkign (CCNA) and self-hosting. This site itself
+    runs on a Raspberry Pi 5 behind a Cloudflare Tunnel
   </p>
-
-  <p class="author__body">
-    If you want to follow my work: check my GitHub, LinkedIn or Instagram via the header links. If you're curious about anything,
-    feel free to email me at <a href="mailto:kumawat.kkushagra@gmail.com">kumawat.kkushagra@gmail.com</a>, or message me on discord 'kris_z0'. 
+  <p>
+    Get in touch: <a href="mailto:<%= site.email %>"><%= site.email %></a>
+    or Discord <code>kris_z0</code>.
   </p>
 </div>

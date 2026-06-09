@@ -1,29 +1,27 @@
-<div class="author">
-  <h1 class="author__heading">Admin Dashboard</h1>
-  <p class="author__body">Create posts, view visitors, and moderate comments.</p>
+<div class="admin-header">
+  <h1>Dashboard</h1>
+</div>
+<div class="admin-nav">
+  <a class="btn" href="/admin/new">New post</a>
+  <a class="btn btn-secondary" href="/admin/projects">Projects</a>
+  <a class="btn btn-secondary" href="/admin/now">Now page</a>
+  <a class="btn btn-secondary" href="/admin/visitors">Visitors</a>
+  <a class="btn btn-secondary" href="/admin/logout">Logout</a>
 </div>
 
-<section class="container">
-  <div style="margin-bottom: 12px;">
-    <a class="btn" href="/admin/new">Create new post</a>
-    <a class="btn" href="/admin/visitors">View all visitors</a>
-    <a class="btn" href="/admin/logout">Logout</a>
-  </div>
-
-  <h2 style="margin-top: 20px;">Posts</h2>
-  <ul style="list-style:none; padding:0;">
-    <% (posts || []).forEach(p => { %>
-      <li style="padding:8px 0; border-bottom:1px solid rgba(0,0,0,0.06); display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <strong><%= p.title %></strong><br>
-          <small><%= new Date(p.createdAt).toLocaleString() %></small>
-        </div>
-        <div>
-          <a class="btn" href="/post/<%= p._id %>">View</a>
-          <a class="btn" href="/admin/visitors?postId=<%= p._id %>">Visitors</a>
-          <a class="btn" href="/admin/comments/<%= p._id %>">Comments</a>
-        </div>
-      </li>
-    <% }) %>
-  </ul>
-</section>
+<h2 style="font-size:1rem; margin-bottom:1rem;">Posts</h2>
+<ul class="admin-post-list">
+<% (posts || []).forEach(p => { %>
+  <li>
+    <div class="admin-post-info">
+      <strong><%= p.title %></strong>
+      <small><%= new Date(p.createdAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' }) %></small>
+    </div>
+    <div class="admin-actions">
+      <a class="btn btn-secondary" href="/post/<%= p._id %>">View</a>
+      <a class="btn btn-secondary" href="/admin/visitors?postId=<%= p._id %>">Visitors</a>
+      <a class="btn btn-secondary" href="/admin/comments/<%= p._id %>">Comments</a>
+    </div>
+  </li>
+<% }) %>
+</ul>

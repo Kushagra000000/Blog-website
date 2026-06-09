@@ -4,6 +4,8 @@ const path = require('path');
 const POSTS_FILE = path.join(__dirname, '../../data/posts.json');
 const VISITS_FILE = path.join(__dirname, '../../data/visits.json');
 const COMMENTS_FILE = path.join(__dirname, '../../data/comments.json');
+const PROJECTS_FILE = path.join(__dirname, '../../data/projects.json');
+const NOW_FILE      = path.join(__dirname, '../../data/now.json');
 
 async function readJson(file, defaultValue = []) {
   try {
@@ -23,7 +25,7 @@ async function writeJson(file, data) {
   await fs.writeFile(file, JSON.stringify(data, null, 2), 'utf8');
 }
 
-//might cause error later.
+//might cause error later...
 function makeId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 }
@@ -80,7 +82,7 @@ module.exports = {
     return comments.filter(c => c.postId === postId).sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
   },
 
-  //writ to json file.
+  // writ to json file
   async saveComment(comment) {
     const comments = await readJson(COMMENTS_FILE, []);
     const c = {
@@ -108,5 +110,44 @@ module.exports = {
     const next = comments.filter(c => c._id !== commentId);
     await writeJson(COMMENTS_FILE, next);
     return true;
+  },
+
+  /* PROJECTS */
+  async getProjects() {
+    return await readJson(PROJECTS_FILE, []);
+  },
+  async getProjectById(id) {
+    const projects = await readJson(PROJECTS_FILE, []);
+    return projects.find(p => p._id === id);
+  },
+  async saveProject(project) {
+    const projects = await readJson(PROJECTS_FILE, []);
+    if (!project._id) project._id = makeId();
+    if (!project.createdAt) project.createdAt = new Date().toISOString();
+    projects.push(project);
+    await writeJson(PROJECTS_FILE, projects);
+    return project;
+  },
+  async updateProject(id, data) {
+    const projects = await readJson(PROJECTS_FILE, []);
+    const i = projects.findIndex(p => p._id === id);
+    if (i === -1) return null;
+    projects[i] = { ...projects[i], ...data };
+    await writeJson(PROJECTS_FILE, projects);
+    return projects[i];
+  },
+  async deleteProject(id) {
+    const projects = await readJson(PROJECTS_FILE, []);
+    await writeJson(PROJECTS_FILE, projects.filter(p => p._id !== id));
+    return true;
+  },
+  /* NOW PAGE */
+  async getNow() {
+    return await readJson(NOW_FILE, { studying: '', building: '', reading: '', other: '', lastUpdated: '' });
+  },
+
+  async saveNow(data) {
+    await writeJson(NOW_FILE, data);
+    return data;
   }
 };

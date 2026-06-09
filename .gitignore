@@ -1,6 +1,6 @@
 node_modules
-ecosystem.config.js
 .env
 data/
 public/uploads/
 .DS_Store
+site.config.js

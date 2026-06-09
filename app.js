@@ -2,6 +2,7 @@ require('dotenv').config();
 
 //for debugging
 const ejs = require('ejs');
+const siteConfig = require('./site.config');
 
 const express = require('express');
 const expressLayout = require('express-ejs-layouts');
@@ -9,6 +10,7 @@ const session = require('express-session');
 const routeHelpers = require('./server/helpers/routeHelpers');
 
 const app = express();
+app.locals.site = siteConfig;
 const PORT = process.env.PORT;
 
 //debugging

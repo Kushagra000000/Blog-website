@@ -1,0 +1,27 @@
+<div class="admin-header">
+  <h1>Projects</h1>
+  <a class="btn" href="/admin/projects/new">Add project</a>
+</div>
+<div class="admin-nav">
+  <a class="btn btn-secondary" href="/admin">← Dashboard</a>
+</div>
+<% if ((projects || []).length === 0) { %>
+  <p class="text-muted">No projects yet.</p>
+<% } else { %>
+  <ul class="admin-post-list">
+    <% projects.forEach(p => { %>
+      <li>
+        <div class="admin-post-info">
+          <strong><%= p.title %></strong>
+          <small><%= p.status %><% if (p.url) { %> · <%= p.url %><% } %></small>
+        </div>
+        <div class="admin-actions">
+          <a class="btn btn-secondary" href="/admin/projects/edit/<%= p._id %>">Edit</a>
+          <form method="POST" action="/admin/projects/delete/<%= p._id %>" onsubmit="return confirm('Delete?');" style="display:inline;">
+            <button class="btn btn-delete" type="submit">Delete</button>
+          </form>
+        </div>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>

@@ -1,14 +1,9 @@
-<div class="searchBar">
+<div class="search-bar">
   <div class="container">
-    <form action="/search" method="POST" class="search__form" role="search">
-      <input 
-        type="search"
-        aria-label="Seach"
-        id="searchInput"
-        name="searchTerm"
-        placeholder="Seach the site..."
-      >
+    <form action="/search" method="POST" role="search">
+      <input type="search" id="searchInput" name="searchTerm"
+             aria-label="Search" placeholder="Search posts...">
     </form>
-    <div id="searchClose">Close</div>
+    <span id="searchClose">✕</span>
   </div>
 </div>

@@ -1,13 +1,9 @@
-<div class="author">
-  <h1 class="author__heading">Admin Login</h1>
-</div>
-
-<section class="container">
-  <% if (error) { %>
-    <p style="color: red;"><%= error %></p>
-  <% } %>
+<div style="max-width:320px; margin:4rem auto;">
+  <h1 style="font-size:1.2rem; margin-bottom:1.5rem;">Admin Login</h1>
+  <% if (error) { %><p class="error-msg"><%= error %></p><% } %>
   <form action="/admin/login" method="POST">
-    <input type="password" name="password" placeholder="Admin password" required>
+    <label>Password</label>
+    <input type="password" name="password" required autofocus>
     <button class="btn" type="submit">Login</button>
   </form>
-</section>
+</div>

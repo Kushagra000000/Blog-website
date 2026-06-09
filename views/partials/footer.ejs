@@ -1,9 +1,9 @@
 <footer class="footer">
-  <div style="margin-bottom: 8px;">
-    <a href="https://github.com/Kushagra000000" target="_blank" rel="noreferrer">GitHub</a> •
-    <a href="https://www.linkedin.com/in/kushagra-kumawat-190921321/" target="_blank" rel="noreferrer">LinkedIn</a> •
-    <a href="https://www.instagram.com/kushagraz0/" target="_blank" rel="noreferrer">Instagram</a> •
-    <a href="mailto:kumawat.kkushagra@gmail.com">Email</a>
+  <span>&copy; <%= new Date().getFullYear() %> <%= site.name %></span>
+  <div class="footer__links">
+    <% if (site.socials.github)    { %><a href="<%= site.socials.github %>"    target="_blank" rel="noreferrer">GitHub</a><% } %>
+    <% if (site.socials.linkedin)  { %><a href="<%= site.socials.linkedin %>"  target="_blank" rel="noreferrer">LinkedIn</a><% } %>
+    <% if (site.socials.instagram) { %><a href="<%= site.socials.instagram %>" target="_blank" rel="noreferrer">Instagram</a><% } %>
+    <% if (site.email)             { %><a href="mailto:<%= site.email %>">Email</a><% } %>
   </div>
-  &copy; <%= new Date().getFullYear(); %> Kushagra ■ blog
 </footer>

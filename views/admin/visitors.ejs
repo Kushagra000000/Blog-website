@@ -1,31 +1,22 @@
-<div class="author">
-  <h1 class="author__heading">Visitor logs</h1>
-  <p class="author__body">Detailed visitor info (visible only to admin)</p>
+<div class="admin-header">
+  <h1>Visitors</h1>
+</div>
+<div class="admin-nav">
+  <a class="btn btn-secondary" href="/admin">← Dashboard</a>
 </div>
 
-<section class="container">
-  <table style="width:100%; border-collapse: collapse;">
-    <thead>
-      <tr>
-        <th style="text-align:left; padding:8px; border-bottom:1px solid #ddd">Post ID</th>
-        <th style="text-align:left; padding:8px; border-bottom:1px solid #ddd">IP</th>
-        <th style="text-align:left; padding:8px; border-bottom:1px solid #ddd">User Agent</th>
-        <th style="text-align:left; padding:8px; border-bottom:1px solid #ddd">When</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% (visits || []).forEach(v => { %>
-        <tr>
-          <td style="padding:8px; border-bottom:1px solid #eee;"><%= v.postId %></td>
-          <td style="padding:8px; border-bottom:1px solid #eee;"><%= v.ip %></td>
-          <td style="padding:8px; border-bottom:1px solid #eee;"><%= v.ua %></td>
-          <td style="padding:8px; border-bottom:1px solid #eee;"><%= new Date(v.createdAt).toLocaleString() %></td>
-        </tr>
-      <% }) %>
-    </tbody>
-  </table>
-  <div style="margin-top: 16px;">
-    <a class="btn" href="/admin/new">Create post</a>
-    <a class="btn" href="/admin/logout">Logout</a>
-  </div>
-</section>
+<table class="admin-table">
+  <thead>
+    <tr><th>Post ID</th><th>IP</th><th>User Agent</th><th>When</th></tr>
+  </thead>
+  <tbody>
+  <% (visits || []).forEach(v => { %>
+    <tr>
+      <td><%= v.postId %></td>
+      <td><%= v.ip %></td>
+      <td style="font-size:0.8rem; color:var(--muted);"><%= v.ua %></td>
+      <td><%= new Date(v.createdAt).toLocaleDateString('en-AU', { day:'numeric', month:'short', year:'numeric' }) %></td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
